@@ -1,0 +1,18 @@
+# Solution folders
+_temp/
+
+# Common settings
+.vs/
+.vscode/
+.idea
+src/**/[Bb]in/
+src/**/[Oo]bj/
+
+# local settings
+*.local.*
+
+*.suo
+*.user
+*.sln.docstates
+riderModule.iml
+Thumbs.db
