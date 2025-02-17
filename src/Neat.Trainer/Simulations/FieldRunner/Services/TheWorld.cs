@@ -95,6 +95,12 @@ public class TheWorld
             iteration.Cells[targetIndex] = null;
         }
 
+        if (targetItem == WorldItemType.Wall)
+        {
+            // pika penalized
+            newPika = newPika with { Energy = newPika.Energy - _settings.WallPenaltyEnergy };
+        }
+
         if (newPika.Energy <= 0)
         {
             // pika died

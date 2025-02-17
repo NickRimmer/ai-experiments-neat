@@ -5,6 +5,7 @@
   },
 
   "Evolution": {
+//    "AllowRecurrent": false,
 //    "SynapseWeightRange": {
 //      "Min": -4.0,
 //      "Max": 4.0,
