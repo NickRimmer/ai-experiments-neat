@@ -1,0 +1,33 @@
+﻿{
+  "Simulation": {
+    "Name": "FindNumber2Simulation",
+    "Population": 100,
+  },
+  "Evolution": {
+    "OverrideActivationProbabilities": {
+      "HyperbolicTangent": 0,
+      "Sigmoid": 0,
+      "Identity": 0,
+      "BinaryStep": 0,
+      "Gaussian": 1,
+      "Mish": 0,
+      "Swish": 0,
+    },
+    "StructNeuronRemoveProbability": 0.01,
+  },
+  "Training": {
+    "SimulationsAtOnce": 100,
+  },
+  "TestCases": {
+    "1": [1],
+    "2": [2],
+    "3": [3],
+    "4": [4],
+    "5": [5],
+    "6": [6],
+    "7": [7],
+    "8": [8],
+    "9": [9],
+    "0": [0],
+  }
+}

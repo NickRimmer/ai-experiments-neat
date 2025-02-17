@@ -1,0 +1,65 @@
+﻿@using System.Drawing
+@using World.FieldRunner.Game.Enums
+@using World.FieldRunner.Game.Services
+<div class="field">
+    @if (Timeline != null)
+    {
+        for (int y = 0; y < TrainingService.Instance.Settings!.WorldSize.Height; y++)
+        {
+            <div class="field-row">
+                @for (int x = 0; x < TrainingService.Instance.Settings.WorldSize.Width; x++)
+                {
+                    <div class="field-cell">
+                        @{
+                            var index = PositionTool.PositionToIndex(new Point(x, y), TrainingService.Instance.Settings.WorldSize);
+                            var item = Timeline[CurrentFrame].Cells[index]?.Item;
+
+                            if (item?.Type == WorldItemType.Food)
+                            {
+                                <div class="cell-food"></div>
+                            }
+                            else if (item?.Type == WorldItemType.Wall)
+                            {
+                                <div class="cell-wall"></div>
+                            }
+                            else if (item?.Type == WorldItemType.Pika)
+                            {
+                                <div class="cell-pika"></div>
+                            }
+                            else if (item?.Type == WorldItemType.Poison)
+                            {
+                                <div class="cell-poison"></div>
+                            }
+                            else if (item != null)
+                            {
+                                <div class="cell-unknown">?</div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="info">No simulation yet loaded</div>
+    }
+</div>
+
+<div>
+    @if (Simulation != null)
+    {
+        <div class="pika-stats"><span>@Energy</span></div>
+        <div class="timeline-controls">
+            <button @onclick="OnAutoLoadSimulation" class="btn btn-outline-primary">@AutoLoadStatus</button>
+            <button @onclick="OnPlaySimulation" disabled="@IsPlaying" class="btn btn-outline-primary">Play</button>
+            <button @onclick="OnPauseSimulation" disabled="@(!IsPlaying)" class="btn btn-outline-primary">Pause</button>
+            <input type="range" min="0" max="@Simulation!.Timeline.Count" @bind="CurrentFrame" class="form-range"/>
+            <button @onclick="OnFrameBackward" class="btn btn-outline-primary">Backward</button>
+            <button @onclick="OnFrameForward" class="btn btn-outline-primary">Forward</button>
+        </div>
+        <div class="text-center">
+            @CurrentFrame / @Simulation!.Timeline.Count
+        </div>
+    }
+</div>

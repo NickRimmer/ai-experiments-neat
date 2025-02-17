@@ -1,0 +1,74 @@
+﻿@using System.Drawing
+@using Neat.Trainer.Simulations.FieldRunner.Enums
+@using Neat.Trainer.Simulations.FieldRunner.Services
+<div class="field">
+    @if (_world != null)
+    {
+        for (int y = 0; y < Settings.WorldSize.Height; y++)
+        {
+            <div class="field-row">
+                @for (int x = 0; x < Settings.WorldSize.Width; x++)
+                {
+                    <div class="field-cell">
+                        @{
+                            var index = PositionTool.PositionToIndex(new Point(x, y), Settings.WorldSize);
+                            var item = _timeline?.ToArray()[CurrentFrame].Cells[index]?.Item;
+
+                            if (item?.Type == WorldItemType.Food)
+                            {
+                                <div class="cell-food"></div>
+                            }
+                            else if (item?.Type == WorldItemType.Wall)
+                            {
+                                <div class="cell-wall"></div>
+                            }
+                            else if (item?.Type == WorldItemType.Pika)
+                            {
+                                <div class="cell-pika"></div>
+                            }
+                            else if (item?.Type == WorldItemType.Poison)
+                            {
+                                <div class="cell-poison"></div>
+                            }
+                            else if (item != null)
+                            {
+                                <div class="cell-unknown">?</div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="info">No simulation yet loaded</div>
+    }
+</div>
+
+<div>
+    @if (_world != null)
+    {
+        <div class="pika-stats"><span>@Energy</span></div>
+        <div class="timeline-controls">
+            <button @onclick="() => IsAutoReloadEnabled = !IsAutoReloadEnabled" class="btn btn-outline-primary">
+                @if (IsAutoReloadEnabled)
+                {
+                    <Icon Name="IconName.Repeat"/>
+                }
+                else
+                {
+                    <Icon Name="IconName.Play"/>
+                }
+            </button>
+            <button @onclick="OnPlaySimulation" disabled="@IsPlaying" class="btn btn-outline-primary">Play</button>
+            <button @onclick="OnPauseSimulation" disabled="@(!IsPlaying)" class="btn btn-outline-primary">Pause</button>
+            <input type="range" min="0" max="@_timeline?.Length" @bind="CurrentFrame" class="form-range"/>
+            <button @onclick="() => PlayFrame(-1, true)" class="btn btn-outline-primary">Backward</button>
+            <button @onclick="() => PlayFrame(+1, true)" class="btn btn-outline-primary">Forward</button>
+        </div>
+        <div class="text-center">
+            @CurrentFrame / @_timeline?.Length
+        </div>
+    }
+</div>

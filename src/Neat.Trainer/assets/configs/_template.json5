@@ -1,0 +1,61 @@
+﻿{
+  "Simulation": {
+    "Name": "SimulationClasName",
+    "Population": 100,
+  },
+
+  "Evolution": {
+//    "SynapseWeightRange": {
+//      "Min": -4.0,
+//      "Max": 4.0,
+//    },
+    
+//    "MaximumHiddenNeurons": 10,
+
+    // struct mutations, 0.0 means disabled 
+    "StructAddSynapsesProbability": 0.15,
+    "StructAddDirectSynapsesProbability": 0,
+    "StructEnableSynapsesProbability": 0.05,
+    "StructDisableSynapsesProbability": 0.10,
+    "StructToggleSynapsesProbability": 0.0,
+    "StructNeuronAddProbability": 0.05,
+    "StructNeuronRemoveProbability": 0.02,
+
+    // non-struct mutations
+    "NonStructSynapseModifyProbability": 0.85,
+    "NonStructSynapseReplaceProbability": 0.05,
+    "NonStructNeuronActivationReplaceProbability": 0.05,
+    "NonStructNeuronBiasProbability": 0.1,
+
+//    "OverrideActivationProbabilities": {
+//      "HyperbolicTangent": 0.35,
+//      "Sigmoid": 0.3,
+//      "Identity": 0.0,
+//      "BinaryStep": 0.0,
+//      "Gaussian": 0.05,
+//      "Mish": 0.2,
+//      "Swish": 0.1,
+//    }
+  },
+
+  "Training": {
+    "SimulationsAtOnce": 100,
+    "KillRate": 0.5, // percent of specie genomes to kill
+  },
+  
+  "Species": {
+    "SpeciesTargetCount": 8, // 5 - 15
+    "DistanceFunction": "MinDistanceToAllGenomes", // MinDistanceToAllGenomes, DistanceToRandomGenome, DistanceToHalfRandomGenomes
+    
+    "ExcessCoefficient": 1,
+    "DisjointCoefficient": 1,
+    "WeightCoefficient": 0.4,
+    "ActivationDiffCoefficient": 1,
+    "BiasDiffCoefficient": 0.4,
+    "NormalizationFactor": 1,
+  },
+
+//  "TestCases": {
+//    "1": [0, 0, 0, 0, 0, 1, 1],
+//  }
+}

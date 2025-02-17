@@ -1,0 +1,85 @@
+﻿.field {
+  background: #3f3f3f;
+  width: 600px;
+  height: 600px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.field-row {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+.field-cell {
+  flex: 1 1 auto;
+  display: flex;
+  background: #2f2f2f;
+  border: solid 1px transparent;
+  transition: border-color 1s;
+}
+
+.field-cell:hover {
+  border: solid 1px #ccc;
+  transition: border-color 0.2s;
+}
+
+.field-cell > div {
+  display: flex;
+  flex-grow: 1;
+}
+
+.cell-food {
+  background: #4bb931;
+}
+
+.cell-wall {
+  background: #141414;
+}
+
+.cell-pika {
+  background: #8db4ff;
+  border-radius: 3px;
+}
+
+.cell-poison {
+  background: #b15455;
+}
+
+.info {
+  font-size: 1.5rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.timeline-controls {
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.timeline-controls .form-range {
+  flex-grow: 1;
+}
+
+.pika-stats {
+  text-align: center;
+}
+
+.pika-stats > span {
+  position: absolute;
+  margin-top: -14px;
+  margin-left: -19px;
+  display: inline-block;
+  background: #AEDEFC;
+  padding: 1px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  min-width: 35px;
+}

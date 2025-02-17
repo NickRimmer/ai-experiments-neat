@@ -1,0 +1,22 @@
+﻿@page "/"
+@using World.FieldRunner.Components.Controls
+@rendermode InteractiveServer
+
+
+<PageTitle>Home</PageTitle>
+
+<div class="d-flex flex-row">
+    <div class="player">
+        <PlayerControl Simulation="_simulation" OnLoadBestSimulation="LoadBestSimulation"/>
+    </div>
+
+    <div class="flex-grow-1">
+        <div>
+            <LearningControl OnLoadLastSimulation="LoadLastSimulation" OnLoadBestSimulation="LoadBestSimulation"/>
+        </div>
+        <div>
+            <StatsControl/>
+            <NetworkViewer Simulation="_simulation"/>
+        </div>
+    </div>
+</div>

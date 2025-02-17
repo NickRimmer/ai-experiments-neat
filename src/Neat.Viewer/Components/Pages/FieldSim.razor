@@ -1,0 +1,66 @@
+﻿@page "/field-sim"
+
+@rendermode InteractiveServer
+
+<div class="d-flex h-100">
+    @* content *@
+    <div class="flex-grow-1 p-4 d-flex flex-row">
+        @if (SelectedGenome != null)
+        {
+            <div>
+                <FieldRunnerPlayer Genome="@SelectedGenome"/>
+            </div>
+            <div class="flex-grow-1 d-flex flex-column" style="padding-left: 10px">
+                <NetworkViewer Genome="@SelectedGenome"/>
+            </div>
+        }
+        else
+        {
+            <div>Genome not selected</div>
+        }
+    </div>
+
+    @* panel *@
+    <div class="panel">
+        <div class="config-stats text-center">
+            <div>
+                Species (@((int)Math.Round(SelectedConfig.Species.SpeciesTargetCount * .5))-@((int)Math.Round(SelectedConfig.Species.SpeciesTargetCount * 1.5))): <span class="@(Species.Count < Math.Round(SelectedConfig.Species.SpeciesTargetCount * .5) || Species.Count > Math.Round(SelectedConfig.Species.SpeciesTargetCount * 1.5) ? "text-danger" : "text-primary")">@Species.Count of @SelectedConfig.Species.SpeciesTargetCount</span> /
+                Iteration: <span class="text-primary">@($"{SelectedGenData?.Iteration:N0}")</span>
+            </div>
+            <div>Distance (1.5-3): <span class="text-primary">@Math.Round(SelectedGenData?.SpeciesThreshold ?? 0f, 1)</span> (@(SelectedGenData?.SpeciesThreshold >= 4 ? "many diff" : SelectedGenData?.SpeciesThreshold <= 1 ? "many same" : "ok"))</div>
+        </div>
+
+        @* genome selector *@
+        <div class="mt-2">
+            <button class="btn btn-sm btn-outline-secondary w-100 mb-2" @onclick="() => LoadSelectedConfig()">
+                Reload species from disk
+                <Icon Name="IconName.ArrowClockwise"/>
+            </button>
+            @{
+                var index = 0;
+                var highestFitness = Species.Count == 0 ? 0 : Species.Max(x => x.Genomes.Max(y => y.HistoricalFitness));
+                for (var i = 0; i < Species.Count; i++)
+                {
+                    <div class="specie">
+                        <div class="fitness">
+                            @(Math.Round(Species.ElementAt(i).AverageFitness, 3)) /
+                            @Species.ElementAt(i).Genomes.Max(x => x.Neurons.Length) N /
+                            @Species.ElementAt(i).Genomes.Max(x => x.Synapses.Length) S
+                        </div>
+                        @foreach (var genome in Species.ElementAt(i).Genomes)
+                        {
+                            var ind = index;
+                            var style = "secondary";
+                            if (highestFitness - genome.HistoricalFitness < 0.0001) style = "primary";
+
+                            <button
+                                class="btn btn-sm @(ind == SelectedGenomeIndex ? "btn" : "btn-outline")-@(style)"
+                                @onclick="() => ShowGenome(ind)">@ind</button>
+                            index++;
+                        }
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

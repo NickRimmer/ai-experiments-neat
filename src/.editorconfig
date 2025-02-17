@@ -61,6 +61,7 @@ dotnet_diagnostic.IDE0018.severity = error # Inline variable declaration
 
 # Stylecop Rules
 dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1000.severity = none
 dotnet_diagnostic.SA1003.severity = suggestion
 dotnet_diagnostic.SA1008.severity = none
 dotnet_diagnostic.SA1009.severity = suggestion
@@ -93,6 +94,7 @@ dotnet_diagnostic.SA1410.severity = suggestion
 dotnet_diagnostic.SA1411.severity = suggestion
 dotnet_diagnostic.SA1413.severity = none
 dotnet_diagnostic.SA1512.severity = none
+dotnet_diagnostic.SA1515.severity = none
 dotnet_diagnostic.SA1516.severity = none
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1601.severity = none
@@ -134,6 +136,7 @@ dotnet_diagnostic.SA1643.severity = none
 dotnet_diagnostic.SA1648.severity = none
 dotnet_diagnostic.SA1649.severity = none
 dotnet_diagnostic.SA1651.severity = none
+dotnet_diagnostic.SA1652.severity = none
 dotnet_diagnostic.SX1309.severity = warning
 
 # Microsoft Analyzers that fail and need to be sorted thru
@@ -287,11 +290,13 @@ dotnet_diagnostic.CA5399.severity = none
 
 dotnet_diagnostic.SYSLIB0006.severity = none
 
+dotnet_diagnostic.SA1003.severity = none
+dotnet_diagnostic.SA1009.severity = none
 dotnet_diagnostic.SA1024.severity = none
 dotnet_diagnostic.SA1028.severity = none # Code should not contain trailing whitespace
 dotnet_diagnostic.SA1503.severity = none
 
-[{*Model.cs, *Settings.cs, *Entity.cs}]
+[{*Model.cs, *Settings.cs, *Entity.cs, *Result.cs}]
 dotnet_diagnostic.SA1313.severity = none # incorrect for records
 
 [*Tests.cs]

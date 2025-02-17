@@ -1,5 +1,7 @@
 # Solution folders
 _temp/
+/src/Worlds/World.FieldRunner/genomes/
+/src/Neat.Trainer/assets/genomes/
 
 # Common settings
 .vs/

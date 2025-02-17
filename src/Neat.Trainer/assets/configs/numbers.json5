@@ -1,0 +1,25 @@
+﻿{
+  "Simulation": {
+    "Name": "FindNumberSimulation",
+    "Population": 100,
+  },
+  "Evolution": {
+    "MutationRates": {
+      "NonStructural": 0.6,
+      "Structural": 0.1,
+    },
+    "SynapseWeightMutationPower": 1.2,
+    "StructSynapsesProbability": 1.0,
+    "StructNeuronAddProbability": 0.1,
+    "StructNeuronRemoveProbability": 0.2,
+    "NonStructSynapseModifyProbability": 1.0,
+    "NonStructSynapseReplaceProbability": 0.2,
+  },
+  "Training": {
+    "SimulationsAtOnce": 100,
+    "SelectionPercentage": 0.5,
+  },
+  "Species": {
+    "DistanceFunction": "DistanceToRandomGenome",
+  }
+}

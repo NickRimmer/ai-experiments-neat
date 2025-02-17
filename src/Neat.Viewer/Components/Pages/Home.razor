@@ -1,0 +1,130 @@
+﻿@page "/"
+@using Neat.Core.Genomes
+
+@rendermode InteractiveServer
+
+<div class="d-flex h-100">
+    @* content *@
+    <div class="flex-grow-1 p-4 d-flex flex-column">
+        @if (SelectedGenome != null)
+        {
+            <NetworkViewer Genome="SelectedGenome"/>
+        }
+        else
+        {
+            <div>Genome not selected</div>
+        }
+    </div>
+
+    @* panel *@
+    <div class="panel">
+        @* config selector *@
+        <div class="d-flex align-items-baseline gap-2">
+            <InputSelect @bind-Value="SelectedConfigName" class="form-control flex-grow-1">
+                @foreach (var item in Configs)
+                {
+                    <option value="@item.Name">@item.Name</option>
+                }
+            </InputSelect>
+            <button class="btn btn-sm btn-outline-primary" @onclick="ReloadConfigs">
+                <Icon Name="IconName.ArrowClockwise"/>
+            </button>
+        </div>
+        
+        <div class="config-stats text-center">
+            <div>
+                Species (@((int)Math.Round(SelectedConfig!.Species.SpeciesTargetCount * .5))-@((int)Math.Round(SelectedConfig!.Species.SpeciesTargetCount * 1.5))): <span class="@(Species.Count < Math.Round(SelectedConfig!.Species.SpeciesTargetCount * .5) || Species.Count > Math.Round(SelectedConfig!.Species.SpeciesTargetCount * 1.5) ? "text-danger" : "text-primary")">@Species.Count of @SelectedConfig?.Species.SpeciesTargetCount</span> /
+                Iteration: <span class="text-primary">@($"{SelectedGenData?.Iteration:N0}")</span>
+            </div>
+            <div>Distance (1.5-3): <span class="text-primary">@Math.Round(SelectedGenData?.SpeciesThreshold ?? 0f, 1)</span> (@(SelectedGenData?.SpeciesThreshold >= 4 ? "many diff" : SelectedGenData?.SpeciesThreshold <= 1 ? "many same" : "ok"))</div>
+        </div>
+
+        @* genome selector *@
+        <div class="mt-2">
+            <button class="btn btn-sm btn-outline-secondary w-100 mb-2" @onclick="() => LoadSelectedConfig(false)">
+                Reload species from disk
+                <Icon Name="IconName.ArrowClockwise"/>
+            </button>
+            @{
+                var index = 0;
+                var highestFitness = Species.Count == 0 ? 0 : Species.Max(x => x.Genomes.Max(y => y.HistoricalFitness));
+                for (var i = 0; i < Species.Count; i++)
+                {
+                    <div class="specie">
+                        <div class="fitness">
+                            @(Math.Round(Species.ElementAt(i).AverageFitness, 3)) /
+                            @Species.ElementAt(i).Genomes.Max(x => x.Neurons.Length) N /
+                            @Species.ElementAt(i).Genomes.Max(x => x.Synapses.Length) S
+                        </div>
+                        @foreach (var genome in Species.ElementAt(i).Genomes)
+                        {
+                            var ind = index;
+                            var style = "secondary";
+                            if (highestFitness - genome.HistoricalFitness < 0.0001) style = "primary";
+
+                            <button
+                                class="btn btn-sm @(ind == SelectedGenomeIndex ? "btn" : "btn-outline")-@(style)"
+                                @onclick="() => ShowGenome(ind)">@ind</button>
+                            index++;
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+        @* genome test *@
+        <div>
+            @{
+                var inputsCount = SelectedGenome?.Neurons.Count(x => x.Type == NeuronType.Input);
+                if (inputsCount is <= 10)
+                {
+                    <div class="input-group">
+                        @for (var i = 0; i < inputsCount; i++)
+                        {
+                            var testIndex = i;
+                            <input class="form-control tiny-input" @bind="TestDataValues[testIndex]" placeholder="@($"i{testIndex}")"/>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <textarea class="form-control" @bind="TestData" @ref="TestInput"></textarea>
+                }
+            }
+            
+            <div class="btn-group d-flex mt-1">
+                <button class="btn btn-primary btn-sm flex-grow-1" @onclick="TestMe">Test</button>
+                <button class="btn btn-primary btn-sm flex-grow-0" @onclick="Simulate">
+                    <Icon Name="IconName.BugFill"/>
+                </button>
+                <button class="btn btn-primary btn-sm flex-grow-0" @onclick="ResetTest">
+                    <Icon Name="IconName.ArrowClockwise"/>
+                </button>
+            </div>
+
+            @if (SelectedConfig?.TestCases is { Count: > 0 })
+            {
+                <div class="btn-group w-100 mt-1">
+                    @foreach (var (name, values) in SelectedConfig.TestCases)
+                    {
+                        <button class="btn btn-outline-primary btn-sm" @onclick="() => RunTestCase(values)">@name</button>
+                    }
+                </div>
+            }
+            
+            @if (!string.IsNullOrWhiteSpace(TestResult))
+            {
+                <div class="alert alert-success mt-1">
+                    @foreach (var item in TestResult.Split('\n'))
+                    {
+                        <div>@item</div>
+                    }
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(TestError))
+            {
+                <div class="alert alert-danger mt-1">@TestError</div>
+            }
+        </div>
+    </div>
+</div>

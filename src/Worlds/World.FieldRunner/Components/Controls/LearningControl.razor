@@ -1,0 +1,27 @@
+﻿@using World.FieldRunner.Game.Services
+
+<div class="learning-controls">
+    <div class="container">
+        <div>Status: @(TrainingService.Instance.IsRunning ? "Running" : "Stopped")</div>
+        <div>Generations: @TrainingService.Instance.SimulationsCount</div>
+        <div>Gens: @GenMin - @GenMax (@(GenMax - GenMin))</div>
+    </div>
+
+    <hr/>
+
+    <div class="container">
+        <div class="p-1">
+            <button class="btn btn-primary" @onclick="Start" disabled="@TrainingService.Instance.IsRunning">Start Learning</button>
+            <button class="btn btn-primary" @onclick="Stop" disabled="@(!TrainingService.Instance.IsRunning)">Stop Learning</button>
+            <button class="btn btn-primary" @onclick="ReplayAsync" disabled="@TrainingService.Instance.IsRunning">Replay Current</button>
+        </div>
+        <div class="p-1">
+            <button class="btn btn-primary" @onclick="LoadLastSimulation" disabled="@(TrainingService.Instance.SimulationsCount == 0)">Load last</button>
+            <button class="btn btn-primary" @onclick="LoadBestSimulation" disabled="@(TrainingService.Instance.SimulationsCount == 0)">Load best</button>
+        </div>
+    </div>
+</div>
+
+@code {
+
+}
