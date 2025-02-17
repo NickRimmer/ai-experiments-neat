@@ -182,7 +182,7 @@ public class TheWorld
                 ? world.Size.Width
                 : world.Size.Height;
 
-            var distance = i / (float) maxDistance;
+            var distance = 1f - (i / (float) maxDistance);
             return (item.Type, distance);
         }
 
